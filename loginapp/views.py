@@ -39,6 +39,6 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         
-    def get(self):
+    def get(self,request):
         users = User.objects.all().values('username', 'password', 'email')
         return Response(users)
