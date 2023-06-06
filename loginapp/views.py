@@ -52,10 +52,9 @@ class LoginView(APIView):
 
 
 class EditProfileView(APIView):
-    permission_classes = [IsAuthenticated]  # Add permission class to ensure the user is authenticated
-
+    permission_classes = [IsAuthenticated]  
     def post(self, request):
-        user = request.user  # Access the logged-in user directly
+        user = request.user  
 
         username = request.data.get('username')
         email = request.data.get('email')
@@ -64,19 +63,20 @@ class EditProfileView(APIView):
         print(user.username,user.email,user.password)
 
         if password:
-            # Check if the provided password is valid
-            if not user.check_password(password):
-                update_session_auth_hash(request, user)
+            if user.check_password(password):
+                
+                if username:
+                    user.username = username
+                if email:
+                    user.email = email
+                if password:
+                    user.set_password(password)
+
+                user.save()
+
+                serializer = UserSerializer(user)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
                 return Response({'error': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)
-
-        if username:
-            user.username = username
-        if email:
-            user.email = email
-        if password:
-            user.set_password(password)
-
-        user.save()
-
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Password required'}, status=status.HTTP_400_BAD_REQUEST)
