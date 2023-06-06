@@ -2,6 +2,7 @@ import psycopg2
 import os
 
 import time
+import datetime
 
 
 
@@ -13,8 +14,9 @@ class DatabaseManpasswordr:
 
     def create_table(self):
         start_time=time.time()
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS user_data
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS auth_user
                             (id SERIAL PRIMARY KEY,
+                            username TEXT NOT NULL,
                            email TEXT NOT NULL,
                             password TEXT NOT NULL)
                            ''')
@@ -25,14 +27,17 @@ class DatabaseManpasswordr:
 
     def insert_data(self):
         start_time=time.time()
-        user_data = []
+        auth_user = []
         while True:
+            username = input("Enter the username: ")
             email = input("Enter the email: ")
             password = input("Enter the password: ")
-            user_data.append((email, password))
+            numeric_value=time.time()
+            date_joined = datetime.datetime.fromtimestamp(numeric_value)
+            auth_user.append((username,email, password,'False',"","","False","False",date_joined))
             if input("Do you want to add more data? (y/n)") == 'n':
                 break
-        self.cursor.executemany('INSERT INTO user_data (email, password) VALUES (%s, %s)', user_data)
+        self.cursor.executemany('INSERT INTO auth_user (username,email, password,is_superuser,first_name,last_name,is_staff,is_active,date_joined) VALUES (%s,%s,%s,%s, %s,%s,%s,%s,%s)', auth_user)
         self.conn.commit()
         end_time=time.time()
         print(f"Time taken to insert data is {end_time-start_time} seconds")
@@ -41,7 +46,7 @@ class DatabaseManpasswordr:
     def delete_data(self):
         start_time=time.time()
         user_id = input("Enter the id: ")
-        self.cursor.execute('DELETE FROM user_data WHERE id = %s', (user_id,))
+        self.cursor.execute('DELETE FROM auth_user WHERE id = %s', (user_id,))
         self.conn.commit()
         end_time=time.time()
         print(f"Time taken to delete data is {end_time-start_time} seconds")
@@ -50,16 +55,17 @@ class DatabaseManpasswordr:
     def update_data(self):
         start_time=time.time()
         user_id = input("Enter the id: ")
+        user_username = input("Enter the username: ")
         user_email = input("Enter the email: ")
         user_password = input("Enter the password: ")
-        self.cursor.execute('UPDATE user_data SET email = %s, password = %s WHERE id = %s', (user_email, user_password, user_id))
+        self.cursor.execute('UPDATE auth_user SET email = %s, username=%s,password = %s WHERE id = %s', (user_username,user_email, user_password, user_id))
         self.conn.commit()
         end_time=time.time()
         print(f"Time taken to update data is {end_time-start_time} seconds")
 
     def view_all_data(self):
         start_time=time.time()
-        self.cursor.execute('SELECT * FROM user_data')
+        self.cursor.execute('SELECT * FROM auth_user')
         rows = self.cursor.fetchall()
         for row in rows:
             print(row)
@@ -69,7 +75,7 @@ class DatabaseManpasswordr:
         
     def delete_all_data(self):
         start_time=time.time()
-        self.cursor.execute('DELETE FROM user_data')
+        self.cursor.execute('DELETE FROM auth_user')
         self.conn.commit()
         end_time=time.time()
         print(f"Time taken to delete all data is {end_time-start_time} seconds")
@@ -77,7 +83,7 @@ class DatabaseManpasswordr:
     def view_single_data(self):
         start_time=time.time()
         user_id = input("Enter the id: ")
-        self.cursor.execute('SELECT * FROM user_data WHERE id = %s', (user_id,))
+        self.cursor.execute('SELECT * FROM auth_user WHERE id = %s', (user_id,))
         row = self.cursor.fetchone()
         print(row)
         self.conn.commit()

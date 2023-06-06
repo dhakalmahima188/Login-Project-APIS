@@ -17,21 +17,15 @@ class RegisterView(APIView):
         username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
-       
-        # Create a new user
         user = User.objects.create_user(username=username, email=email, password=password)
         
         if user:
-            # Serialize the user data
             serializer = UserSerializer(user)
-            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response({'error': 'Failed to create user'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-        
-    
+  
 class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
@@ -45,6 +39,6 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         
-    def get(self, request):
+    def get(self):
         users = User.objects.all().values('username', 'password', 'email')
         return Response(users)
