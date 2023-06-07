@@ -9,8 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
 
 def send_email(request):
-    subject = 'Hello from Django'
-    message = 'This is a test email.'
+    subject = 'Invitation-link'
+    message = 'Register for the event by clicking the link below: http://127.0.0.1:8000/api/register/'
     from_email = 'mahi.testmail18@gmail.com' # Replace with your email address
     recipient_list = ['076bct033.mahima@pcampus.edu.np', 'dhakalmahima18@gmail.com']  # Replace with recipient email addresses
 
@@ -56,6 +56,10 @@ class LoginView(APIView):
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+ 
+
+
+class UserView(APIView):
     def get(self, request):
         users = User.objects.all().values('username', 'password', 'email')
         return Response(users)
@@ -65,7 +69,6 @@ class EditProfileView(APIView):
     permission_classes = [IsAuthenticated]  
     def post(self, request):
         user = request.user  
-
         username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')
