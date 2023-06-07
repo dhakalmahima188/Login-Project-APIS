@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 password = os.getenv("PASSWORD")
-print("here",password)
+email=os.getenv("EMAIL")
+
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,7 +133,7 @@ REST_FRAMEWORK = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mahi.testmail18@gmail.com'  # Replace with your email address
+EMAIL_HOST_USER = email  # Replace with your email address
 EMAIL_HOST_PASSWORD = password  # Replace with your email password
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'mahi.testmail18@gmail.com'
