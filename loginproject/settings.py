@@ -136,4 +136,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = email  # Replace with your email address
 EMAIL_HOST_PASSWORD = password  # Replace with your email password
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'mahi.testmail18@gmail.com'
+DEFAULT_FROM_EMAIL = email
