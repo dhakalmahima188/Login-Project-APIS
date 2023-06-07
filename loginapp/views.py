@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
+import psycopg2
 
 def send_email(request):
     subject = 'Invitation-link'
@@ -93,3 +94,15 @@ class EditProfileView(APIView):
                 return Response({'error': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({'error': 'Password required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+def fetchemails(request):
+    conn = psycopg2.connect(
+    host="localhost",
+    port="5432",
+    database="postgres",
+    user="postgres",
+    password="mahima@123")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM user_emails")
+    rows = cur.fetchall()
+    
