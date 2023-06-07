@@ -1,9 +1,10 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import time
+
 load_dotenv()
 password = os.getenv("PASSWORD")
+print("here",password)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
