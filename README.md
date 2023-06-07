@@ -1,5 +1,5 @@
 # Login-Project-APIS
-#### * Scripts to commect postgres
+#### * Scripts to connect postgres and manual data entry without models.
 #### * No use of MODELS.PY: only changes in views.py and urls.py
 #### * Login and Register APis
 #### * Apis for user display
