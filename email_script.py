@@ -1,7 +1,7 @@
 import psycopg2
 import time
 
-class DatabaseManpasswordr:
+class DatabasePostgress:
     def __init__(self, database_email):
         self.conn = psycopg2.connect(database_email)
         self.cursor = self.conn.cursor()
@@ -35,16 +35,16 @@ class DatabaseManpasswordr:
         self.conn.close()
 
 if __name__ == "__main__":
-    database_manpasswordr = DatabaseManpasswordr(f'dbname=postgres user=postgres password= mahima@123 host=localhost port=5432')
+    databasePostgress = DatabasePostgress(f'dbname=postgres user=postgres password= mahima@123 host=localhost port=5432')
     while True:
         print("1. Insert data", "2. View all data", "3. Exit", sep="\n")
         x = int(input("Enter the option: "))
 
         if x == 1:
-            database_manpasswordr.create_table()
-            database_manpasswordr.insert_data()       
+            databasePostgress.create_table()
+            databasePostgress.insert_data()       
         elif x == 2:
-            database_manpasswordr.view_all_data()     
+            databasePostgress.view_all_data()     
         else:
-            database_manpasswordr.close_connection()
+            databasePostgress.close_connection()
             exit()
