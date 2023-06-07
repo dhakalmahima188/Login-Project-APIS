@@ -142,3 +142,11 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication'
     ]
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mahi.testmail18@gmail.com'  # Replace with your email address
+EMAIL_HOST_PASSWORD = 'atlllxhfnetrnqxh'  # Replace with your email password
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'mahi.testmail18@gmail.com'

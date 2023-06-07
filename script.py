@@ -52,16 +52,6 @@ class DatabaseManpasswordr:
         print(f"Time taken to delete data is {end_time-start_time} seconds")
       
 
-    def update_data(self):
-        start_time=time.time()
-        user_id = input("Enter the id: ")
-        user_username = input("Enter the username: ")
-        user_email = input("Enter the email: ")
-        user_password = input("Enter the password: ")
-        self.cursor.execute('UPDATE auth_user SET email = %s, username=%s,password = %s WHERE id = %s', (user_username,user_email, user_password, user_id))
-        self.conn.commit()
-        end_time=time.time()
-        print(f"Time taken to update data is {end_time-start_time} seconds")
 
     def view_all_data(self):
         start_time=time.time()
